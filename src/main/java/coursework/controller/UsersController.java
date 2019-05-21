@@ -1,43 +1,43 @@
 package coursework.controller;
 
-import coursework.model.Users;
-import coursework.repositoy.UsersRepo;
+import coursework.model.User;
+import coursework.repositoy.UserRepo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/users")
 public class UsersController {
-    private final UsersRepo usersRepo;
+    private final UserRepo usersRepo;
 
-    public UsersController(UsersRepo usersRepo) {
+    public UsersController(UserRepo usersRepo) {
         this.usersRepo = usersRepo;
     }
 
     @GetMapping
-    public Iterable<Users> getUsers(){
+    public Iterable<User> getUsers(){
         return usersRepo.findAll();
     }
 
     @GetMapping("{id}")
-    public Users getContract(@PathVariable("id") Users users) {
+    public User getContract(@PathVariable("id") User users) {
         return users;
     }
 
     @PostMapping
-    public Users addUsers(@RequestBody Users users) {
+    public User addUsers(@RequestBody User users) {
         return usersRepo.save(users);
     }
 
     @PutMapping("{id}")
-    public Users updateUsers(@PathVariable("id") Users usersFromDB,
-                                     @RequestBody Users newUsers) {
+    public User updateUsers(@PathVariable("id") User usersFromDB,
+                            @RequestBody User newUsers) {
         BeanUtils.copyProperties(newUsers, usersFromDB, "id");
         return usersRepo.save(usersFromDB);
     }
 
     @DeleteMapping("{id}")
-    public void deleteUsers(@PathVariable("id") Users users) {
+    public void deleteUsers(@PathVariable("id") User users) {
         usersRepo.delete(users);
     }
 }
